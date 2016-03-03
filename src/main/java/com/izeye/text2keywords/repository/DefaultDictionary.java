@@ -1,12 +1,7 @@
 package com.izeye.text2keywords.repository;
 
-import org.apache.commons.io.IOUtils;
-import org.springframework.util.ResourceUtils;
+import com.izeye.text2keywords.util.JarResourceUtils;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,14 +14,7 @@ public class DefaultDictionary implements Dictionary {
 	
 	public DefaultDictionary(String... resourceLocations) {
 		for (String resourceLocation : resourceLocations) {
-			try {
-				File file = ResourceUtils.getFile(resourceLocation);
-				this.words.addAll(IOUtils.readLines(new FileReader(file)));
-			} catch (FileNotFoundException ex) {
-				throw new RuntimeException(ex);
-			} catch (IOException ex) {
-				throw new RuntimeException(ex);
-			}
+			this.words.addAll(JarResourceUtils.readLines(resourceLocation));
 		}
 	}
 	
